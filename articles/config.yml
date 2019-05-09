@@ -173,7 +173,7 @@ colophon: true
 # catalogfile: catalog.yml
 
 # reファイルを格納するディレクトリ。省略した場合は以下 (. はカレントディレクトリを示す)
-# contentdir: .
+contentdir: articles
 
 # @<w>命令で使用する単語ファイルのパス
 # words_file: words.csv
