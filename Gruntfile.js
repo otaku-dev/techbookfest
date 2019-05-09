@@ -3,8 +3,8 @@
 let fs = require("fs");
 let yaml = require("js-yaml");
 
-const articles = "articles";
-const bookConfig = yaml.safeLoad(fs.readFileSync(`${articles}/config.yml`, "utf8"));
+const review = "review";
+const bookConfig = yaml.safeLoad(fs.readFileSync(`${review}/config.yml`, "utf8"));
 
 const reviewPrefix = process.env["REVIEW_PREFIX"] || "bundle exec ";
 const reviewPostfix = process.env["REVIEW_POSTFIX"] || "";             // REVIEW_POSTFIX="-peg" npm run pdf とかするとPEGでビルドできるよ
@@ -21,14 +21,14 @@ module.exports = grunt => {
 		clean: {
 			review: {
 				src: [
-					`${articles}/${bookConfig.bookname}-*/`, // pdf, epub temp dir
-					`${articles}/*.pdf`,
-					`${articles}/*.epub`,
-					`${articles}/*.html`,
-					`${articles}/*.md`,
-					`${articles}/*.xml`,
-					`${articles}/*.txt`,
-					`${articles}/webroot`
+					`${review}/${bookConfig.bookname}-*/`, // pdf, epub temp dir
+					`${review}/*.pdf`,
+					`${review}/*.epub`,
+					`${review}/*.html`,
+					`${review}/*.md`,
+					`${review}/*.xml`,
+					`${review}/*.txt`,
+					`${review}/webroot`
 				]
 			}
 		},
@@ -36,15 +36,15 @@ module.exports = grunt => {
 			preprocess: {
 				options: {
 					execOptions: {
-						cwd: articles,
+						cwd: review,
 					}
 				},
-				command: `${reviewPreproc} -r --tabwidth=2 *.re`
+        command: `${reviewPreproc} -r --tabwidth=2 articles/*.re`
 			},
 			compile2text: {
 				options: {
 					execOptions: {
-						cwd: articles,
+						cwd: review,
 					}
 				},
 				command: `${reviewTextMaker} ${reviewConfig}`
@@ -52,7 +52,7 @@ module.exports = grunt => {
 			compile2markdown: {
 				options: {
 					execOptions: {
-						cwd: articles,
+						cwd: review,
 					}
 				},
 				command: `${reviewCompile} --target=markdown`
@@ -60,7 +60,7 @@ module.exports = grunt => {
 			compile2html: {
 				options: {
 					execOptions: {
-						cwd: articles,
+						cwd: review,
 					}
 				},
 				command: `${reviewCompile} --target=html --stylesheet=style.css --chapterlink`
@@ -68,7 +68,7 @@ module.exports = grunt => {
 			compile2latex: {
 				options: {
 					execOptions: {
-						cwd: articles,
+						cwd: review,
 					}
 				},
 				command: `${reviewCompile} --target=latex --footnotetext`
@@ -76,7 +76,7 @@ module.exports = grunt => {
 			compile2idgxml: {
 				options: {
 					execOptions: {
-						cwd: articles,
+						cwd: review,
 					}
 				},
 				command: `${reviewCompile} --target=idgxml`
@@ -84,7 +84,7 @@ module.exports = grunt => {
 			compile2pdf: {
 				options: {
 					execOptions: {
-						cwd: articles,
+						cwd: review,
 					}
 				},
 				command: `${reviewPdfMaker} ${reviewConfig}`
@@ -92,7 +92,7 @@ module.exports = grunt => {
 			compile2epub: {
 				options: {
 					execOptions: {
-						cwd: articles,
+						cwd: review,
 					}
 				},
 				command: `${reviewEpubMaker} ${reviewConfig}`
@@ -100,7 +100,7 @@ module.exports = grunt => {
 			compile2web: {
 				options: {
 					execOptions: {
-						cwd: articles,
+						cwd: review,
 					}
 				},
 				command: `${reviewWebMaker} ${reviewConfig}`
